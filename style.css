@@ -1,3 +1,8 @@
+:root
+{
+    --butt-color: rgb(117, 1, 1);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -5,8 +10,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
-  background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+  font-family: 'Press Start 2P', cursive;
+  background: url('retrosamurai.gif') no-repeat center center fixed;
   background-size: cover;
   color: #ffffff;
 }
@@ -39,7 +44,7 @@ header p {
   background-color: rgba(255, 255, 255, 0.05);
   padding: 1.5rem 2rem;
   border-radius: 12px;
-  width: 100%;
+  width: 45%;
   max-width: 600px;
   text-align: center;
 }
@@ -54,15 +59,15 @@ header p {
 .links a {
   display: inline-block;
   margin: 0.5rem 1rem;
-  color: #00ffc8;
+  color: var(--butt-color);
   text-decoration: none;
   font-weight: bold;
 }
 
 .project button {
   padding: 0.75rem 1.5rem;
-  background-color: #00ffc8;
-  color: #000;
+  background-color: var(--butt-color);
+  color: #ffffff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -95,4 +100,69 @@ header p {
   gap: 2rem;
   justify-content: center;
   flex-wrap: wrap; /* чтобы не разваливалось на мобилках */
+}
+
+.links a {
+  display: inline-block;
+  margin: 0.5rem 1rem;
+  padding: 0.5rem 1.2rem;       /* добавляем внутренние отступы, как у кнопок */
+  background-color: var(--butt-color);   /* цвет фона */
+  color: #ffffff;                 /* цвет текста */
+  font-weight: bold;
+  text-decoration: none;       /* убрать подчеркивание */
+  border-radius: 6px;          /* скругления */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.links a:hover {
+  background-color: #740404;   /* чуть темнее при наведении */
+}
+
+.justabutton {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.justabutton.shine-effect::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%) rotate(25deg);
+  animation: shineAnimation 0.9s forwards;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes shineAnimation {
+  100% {
+    transform: translateX(100%) rotate(25deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.justabutton:hover {
+  animation: bounce 2.5s ease-in-out infinite;
+}
+::selection {
+  background: var(--butt-color);
+  color: white;
 }

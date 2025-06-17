@@ -5,21 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RheinSakatoku</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div class="container">
     <header>
       <h1>Rhein Sakatoku</h1>
-      <p>C#, Java, C, C++, Python, JS, TS, Lua — короче, расширенный профиль</p>
+      <p>C, C++, C#, Java, Python, JS, TS, Lua. Да и просто пишите, пообщаемся!</p>
     </header>
-
+    <div class="flex-row">
     <section class="block">
       <h2>Ссылки</h2>
       <div class="links">
-        <a href="https://github.com/RheinSakatoku" target="_blank">GitHub</a>
-        <a href="https://t.me/eendracht_maakt_inferno" target="_blank">Telegram</a>
-        <a href="mailto:rheinsakatoku@gmail.com">Email</a>
+        <a href="https://github.com/RheinSakatoku" target="_blank" class="justabutton">GitHub</a>
+        <a href="https://t.me/eendracht_maakt_inferno" target="_blank" class="justabutton">Telegram</a>
+        <a href="https://vk.com/blessed_rhein" target="_blank" class="justabutton">VK</a>
+        <a href="mailto:rheinsakatoku@gmail.com?subject=Привет&body=Хочу с тобой связаться!" class="justabutton">Email</a>
+        <a href="https://discord.gg/c63PaFdGtk" target="_blank" class="justabutton">Discord сервер</a>
+        <a href="https://boosty.to/rheinsakatoku" target="_blank" class="justabutton">Boosty</a>
       </div>
     </section>
 
@@ -28,12 +32,15 @@
       <div class="project">
         <button id="project-button">Autuminal!</button>
         <div class="dropdown" id="dropdown">
-          <a href="https://addons.mozilla.org/ru/firefox/addon/autuminal" target="_blank">Firefox</a>
+          <a href="https://addons.mozilla.org/ru/firefox/addon/autuminal" target="_blank" class="justabutton">Firefox</a>
+          <a href="https://t.me/autuminalextention" target="_blank" class="justabutton">Telegram</a>
         </div>
       </div>
     </section>
+    </div>
   </div>
 
+  <script src="button-shine.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
