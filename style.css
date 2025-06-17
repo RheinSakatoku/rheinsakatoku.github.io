@@ -1,17 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  padding: 0;
   font-family: 'Roboto', sans-serif;
-  background: #121212;
-  color: #f0f0f0;
+  background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+  background-size: cover;
+  color: #ffffff;
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0.6); /* затемнение */
+  min-height: 100vh;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  gap: 2rem;
 }
 
 header {
   text-align: center;
-  margin-bottom: 2rem;
 }
 
 header h1 {
@@ -20,26 +31,35 @@ header h1 {
 }
 
 header p {
-  font-size: 1.2rem;
-  color: #aaa;
+  font-size: 1.1rem;
+  color: #ccc;
 }
 
-.links {
-  margin-bottom: 2rem;
-}
-
-.links a {
-  color: #00ffc8;
-  text-decoration: none;
-  margin: 0 1rem;
-  font-weight: bold;
-}
-
-.project {
+.block {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
   text-align: center;
 }
 
-#project-button {
+.block h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #666;
+  padding-bottom: 0.5rem;
+}
+
+.links a {
+  display: inline-block;
+  margin: 0.5rem 1rem;
+  color: #00ffc8;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.project button {
   padding: 0.75rem 1.5rem;
   background-color: #00ffc8;
   color: #000;
