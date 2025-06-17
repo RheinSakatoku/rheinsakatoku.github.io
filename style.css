@@ -166,3 +166,29 @@ header p {
   background: var(--butt-color);
   color: white;
 }
+
+@media (max-width: 600px) {
+  .flex-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .block {
+    width: 90% !important; /* блоки чуть шире на мобилках */
+  }
+  
+  .links a,
+  .project button {
+    display: block;
+    width: 100%;
+    max-width: 400px; /* ограничиваем максимальную ширину для красоты */
+    margin: 0.5rem auto; /* центрируем по горизонтали */
+    box-sizing: border-box;
+  }
+  
+  .dropdown {
+    max-width: 400px;
+    width: 100%;
+  }
+}
