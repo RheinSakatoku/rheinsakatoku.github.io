@@ -1,10 +1,11 @@
-// copy-email.js
 (function(){
+  let copyHandler = null;
+
   window.initEmailCopy = function(){
     const emailButton = document.getElementById("copy-email");
     if (!emailButton) return;
 
-    function copyHandler(e) {
+    copyHandler = function(e) {
       e.preventDefault();
       const email = emailButton.dataset.email;
 
@@ -16,8 +17,15 @@
       }).catch(() => {
         alert("Не удалось скопировать email :(");
       });
-    }
+    };
 
     emailButton.addEventListener("click", copyHandler);
+  };
+
+  window.destroyEmailCopy = function() {
+    const emailButton = document.getElementById("copy-email");
+    if (!emailButton || !copyHandler) return;
+    emailButton.removeEventListener("click", copyHandler);
+    copyHandler = null;
   };
 })();

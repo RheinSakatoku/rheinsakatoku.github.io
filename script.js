@@ -1,6 +1,10 @@
 window.addEventListener('DOMContentLoaded', () => {
   let buttonShineLoaded = false;
   let copyEmailLoaded = false;
+
+  let shineScriptTag = null;
+  let copyScriptTag = null;
+
   let unloadShineTimer = null;
   let unloadCopyTimer = null;
 
@@ -8,69 +12,96 @@ window.addEventListener('DOMContentLoaded', () => {
   const dropdown = document.getElementById("dropdown");
   const emailButton = document.getElementById("copy-email");
 
-  // Тоггл дропдауна
-  projectBtn.addEventListener("click", () => {
-    dropdown.classList.toggle("show");
-  });
-
-  // Обработка кнопок для ButtonShine
-  document.querySelectorAll('.justabutton').forEach(btn => {
-    // Наведение — подгружаем shine, если надо
-    btn.addEventListener('mouseenter', () => {
-      if (!buttonShineLoaded) {
-        const script = document.createElement('script');
-        script.src = 'button-shine.js';
-        script.onload = () => {
-          if (window.ButtonShine) ButtonShine.init();
-        };
-        document.body.appendChild(script);
-        buttonShineLoaded = true;
-      }
-      if (unloadShineTimer) {
-        clearTimeout(unloadShineTimer);
-        unloadShineTimer = null;
-      }
-    });
-
-    btn.addEventListener('mouseleave', () => {
-      unloadShineTimer = setTimeout(() => {
-        if (window.ButtonShine) {
-          ButtonShine.destroy();
-          const script = document.querySelector('script[src*="button-shine.js"]');
-          if (script) script.remove();
-          delete window.ButtonShine;
-          buttonShineLoaded = false;
-        }
-      }, 5000);
-    });
-  });
-
-  // Наведение на кнопку Email — подгружаем скрипт копирования и инициализируем
-  emailButton.addEventListener('mouseenter', () => {
-    if (!copyEmailLoaded) {
+  // Универсальная функция загрузки скрипта с коллбэками
+  function loadScript(src, onLoad, onError) {
+    return new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = 'copy-email.js';
+      script.src = src;
+      script.async = true;
       script.onload = () => {
-        if(window.initEmailCopy) window.initEmailCopy();
+        if (onLoad) onLoad();
+        resolve(script);
+      };
+      script.onerror = () => {
+        if (onError) onError();
+        reject(new Error(`Failed to load script ${src}`));
       };
       document.body.appendChild(script);
-      copyEmailLoaded = true;
+    });
+  }
+
+  // Функция выгрузки скрипта и удаления глобальных переменных
+  function unloadScript(scriptTag, globalsToDelete = []) {
+    if (!scriptTag) return;
+    scriptTag.remove();
+    globalsToDelete.forEach(name => {
+      delete window[name];
+    });
+  }
+
+  // Обработчик для shine
+  function onButtonMouseEnter() {
+    if (!buttonShineLoaded) {
+      loadScript('button-shine.js', () => {
+        if (window.ButtonShine) window.ButtonShine.init();
+      }).then(script => {
+        shineScriptTag = script;
+        buttonShineLoaded = true;
+      }).catch(console.error);
+    }
+    if (unloadShineTimer) {
+      clearTimeout(unloadShineTimer);
+      unloadShineTimer = null;
+    }
+  }
+
+  function onButtonMouseLeave() {
+    unloadShineTimer = setTimeout(() => {
+      if (window.ButtonShine) {
+        window.ButtonShine.destroy();
+      }
+      unloadScript(shineScriptTag, ['ButtonShine']);
+      shineScriptTag = null;
+      buttonShineLoaded = false;
+    }, 5000);
+  }
+
+  // Обработчик для email copy
+  function onEmailMouseEnter() {
+    if (!copyEmailLoaded) {
+      loadScript('copy-email.js', () => {
+        if (window.initEmailCopy) window.initEmailCopy();
+      }).then(script => {
+        copyScriptTag = script;
+        copyEmailLoaded = true;
+      }).catch(console.error);
     }
     if (unloadCopyTimer) {
       clearTimeout(unloadCopyTimer);
       unloadCopyTimer = null;
     }
-  });
+  }
 
-  // Уход мыши с email — через 5 секунд выгружаем копирование
-  emailButton.addEventListener('mouseleave', () => {
+  function onEmailMouseLeave() {
     unloadCopyTimer = setTimeout(() => {
-      if(window.destroyEmailCopy) window.destroyEmailCopy();
-      const script = document.querySelector('script[src*="copy-email.js"]');
-      if (script) script.remove();
-      delete window.initEmailCopy;
-      delete window.destroyEmailCopy;
+      if (window.destroyEmailCopy) window.destroyEmailCopy();
+      unloadScript(copyScriptTag, ['initEmailCopy', 'destroyEmailCopy']);
+      copyScriptTag = null;
       copyEmailLoaded = false;
     }, 5000);
+  }
+
+  // Привязываем обработчики
+  document.querySelectorAll('.justabutton').forEach(btn => {
+    btn.addEventListener('mouseenter', onButtonMouseEnter);
+    btn.addEventListener('mouseleave', onButtonMouseLeave);
+  });
+
+  emailButton.addEventListener('mouseenter', onEmailMouseEnter);
+  emailButton.addEventListener('mouseleave', onEmailMouseLeave);
+
+  // Дропдаун кнопка
+  projectBtn.addEventListener("click", () => {
+    dropdown.classList.toggle("show");
   });
 });
