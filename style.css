@@ -1,6 +1,5 @@
-:root
-{
-    --butt-color: rgb(117, 1, 1);
+:root {
+  --butt-color: rgb(117, 1, 1);
 }
 
 * {
@@ -56,12 +55,23 @@ header p {
   padding-bottom: 0.5rem;
 }
 
+/* Объединённые стили для ссылок в блоке .links */
 .links a {
   display: inline-block;
   margin: 0.5rem 1rem;
-  color: var(--butt-color);
-  text-decoration: none;
+  padding: 0.5rem 1.2rem;       
+  background-color: var(--butt-color);
+  color: #ffffff;
   font-weight: bold;
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.links a:hover {
+  background-color: #740404;
 }
 
 .project button {
@@ -73,16 +83,30 @@ header p {
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
-    
   font-family: 'Press Start 2P', cursive;
 }
 
+/* Дропдаун с анимацией плавного появления */
 .dropdown {
-  margin-top: 1rem;
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  margin-top: 0.5rem; /* вот этот отступ сверху */
+
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
+
+
+.dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 
 .dropdown a {
   color: #fff;
@@ -90,6 +114,7 @@ header p {
   padding: 0.5rem 1rem;
   border-radius: 4px;
   text-decoration: none;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .dropdown a:hover {
@@ -102,23 +127,6 @@ header p {
   gap: 2rem;
   justify-content: center;
   flex-wrap: wrap; /* чтобы не разваливалось на мобилках */
-}
-
-.links a {
-  display: inline-block;
-  margin: 0.5rem 1rem;
-  padding: 0.5rem 1.2rem;       /* добавляем внутренние отступы, как у кнопок */
-  background-color: var(--butt-color);   /* цвет фона */
-  color: #ffffff;                 /* цвет текста */
-  font-weight: bold;
-  text-decoration: none;       /* убрать подчеркивание */
-  border-radius: 6px;          /* скругления */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.links a:hover {
-  background-color: #740404;   /* чуть темнее при наведении */
 }
 
 .justabutton {
@@ -161,14 +169,17 @@ header p {
     transform: translateY(-6px);
   }
 }
+
 .justabutton:hover {
   animation: bounce 2.5s ease-in-out infinite;
 }
+
 ::selection {
   background: var(--butt-color);
   color: white;
 }
 
+/* Адаптив для мобилок */
 @media (max-width: 600px) {
   .flex-row {
     flex-direction: column;
@@ -183,7 +194,6 @@ header p {
   .links a,
   .project button {
     display: block;
-    font-family: 'Press Start 2P', cursive;
     width: 100%;
     max-width: 400px; /* ограничиваем максимальную ширину для красоты */
     margin: 0.5rem auto; /* центрируем по горизонтали */

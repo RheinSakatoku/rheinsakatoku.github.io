@@ -1,18 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
-  // Инициализируем сияние кнопок
-  ButtonShine.init();
-
-  // Выпадающее меню
-  const projectBtn = document.getElementById("project-button");
-  const dropdown = document.getElementById("dropdown");
-  
-  projectBtn.addEventListener("click", () => {
-    dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-  });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  ButtonShine.init();
+  let buttonShineLoaded = false;
+  let unloadTimer = null;
 
   const projectBtn = document.getElementById("project-button");
   const dropdown = document.getElementById("dropdown");
@@ -36,7 +24,41 @@ document.addEventListener('DOMContentLoaded', () => {
       alert("Не удалось скопировать email :(");
     });
   });
+
+  // Наведение на любую кнопку
+  document.querySelectorAll('.justabutton').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      // Если не загружено — подгружаем
+      if (!buttonShineLoaded) {
+        const script = document.createElement('script');
+        script.src = 'button-shine.js';
+        script.onload = () => {
+          if (window.ButtonShine) {
+            ButtonShine.init();
+          }
+        };
+        document.body.appendChild(script);
+        buttonShineLoaded = true;
+      }
+
+      // Если был таймер выгрузки — отменим
+      if (unloadTimer) {
+        clearTimeout(unloadTimer);
+        unloadTimer = null;
+      }
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      // Ставим таймер на выгрузку
+      unloadTimer = setTimeout(() => {
+        if (window.ButtonShine) {
+          ButtonShine.destroy();
+          const script = document.querySelector('script[src*="button-shine.js"]');
+          if (script) script.remove();
+          delete window.ButtonShine;
+          buttonShineLoaded = false;
+        }
+      }, 5000);
+    });
+  });
 });
-
-
-
